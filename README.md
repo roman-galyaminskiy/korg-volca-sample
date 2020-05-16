@@ -13,20 +13,9 @@ Stop playing sample as you release button. Works best with long melodic/vocal sa
 
 ```cpp
 
-voice.choke_note_on();
+volca.choke_note_on(1);
 delay(100);
-voice.choke_note_off();
-
-```
-
-### Gate mode
-Stop playing sample as you release button. Works best with long melodic/vocal samples
-
-```cpp
-
-voice.choke_note_on();
-delay(100);
-voice.choke_note_off();
+volca.choke_note_off(1);
 
 ```
 
@@ -35,37 +24,37 @@ Man, I wanted this feature so much. Alas you could not change sample assigned to
 
 ```cpp
 
-voice.pick_random_phrase();
-voice.trigger();
+volca.pick_random_phrase(1);
+volca.trigger(1);
 
 ```
 
-## Chromatic mode
+### Chromatic mode
 Play MIDI notes chromatically. For now only one octave (12 steps) is available.
 
 ```cpp
 
-voice.play_note(48);
+volca.play_note(1, 48);
 delay(500);
-voice.play_note(49);
+volca.play_note(1, 49);
 delay(500);
-voice.play_note(50);
+volca.play_note(1, 50);
 delay(500);
-voice.play_note(51);
+volca.play_note(1, 51);
 delay(500);
-voice.play_note(52);
+volca.play_note(1, 52);
 delay(500);
-voice.play_note(53);
+volca.play_note(1, 53);
 delay(500);
-voice.play_note(54);
+volca.play_note(1, 54);
 delay(500);
-voice.play_note(55);
+volca.play_note(1, 55);
 delay(500);
-voice.play_note(56);
+volca.play_note(1, 56);
 delay(500);
-voice.play_note(57);
+volca.play_note(1, 57);
 delay(500);
-voice.play_note(58);
+volca.play_note(1, 58);
 delay(500);
 
 ```
@@ -77,8 +66,8 @@ Randomize voice parameter value in selected range every time voice is triggered.
 
 ```cpp
 
-voice.randomize(PITCH_INT, 60, 120);
-voice.trigger();
+volca.randomize(1, PITCH_INT, 60, 120);
+volca.trigger(1);
 
 ```
 
@@ -87,7 +76,14 @@ Randomize voice parameter value in selected range every time voice is triggered.
 
 ```cpp
 
-voice.randomize(PITCH_INT, 60, 120);
-voice.trigger();
+int random_voice = 0;
+for (size_t i = 0; i < random(1, 3); i++)
+{
+  random_voice = random(3, 7);
+  volca.randomize_parameter(random_voice, PITCH_INT, 60, 120);
+  volca.randomize_parameter(random_voice, PAN, 0, 128);
+  volca.trigger(random_voice);
 
+  delay(random(100, 500));
+}
 ```
