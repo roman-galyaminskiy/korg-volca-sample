@@ -2,53 +2,82 @@
 #include <usbhub.h>
 #include <SPI.h>
 
-#include "voice.hpp"  
+#include "volca.hpp"  
 
 MIDI_CREATE_INSTANCE(HardwareSerial, Serial3, midi2);
 
-Voice voice = Voice(&midi2, 1, 1);
+Volca volca = Volca(&midi2);
 
 void setup() {  
-  voice.initialize();    
+  volca.initialize();    
 }
 
 void loop() {  
   // Stop playing sample as you release button. Works best with long melodic/vocal samples
   // voice.choke_note_on();
+  // delay(50);
+  // voice.choke_note_off();
   // delay(100);
+  // voice.choke_note_on();
+  // delay(50);
+  // voice.choke_note_off();
+  // delay(200);
+  // voice.choke_note_on();
+  // delay(175);
+  // voice.choke_note_off();
+  // delay(125);
+  // voice.choke_note_on();
+  // delay(175);
+  // voice.choke_note_off();
+  // delay(125);
+  // voice.choke_note_on();
+  // delay(125);
+  // voice.choke_note_off();
+  // delay(275);
+  // voice.choke_note_on();
+  // delay(800);
   // voice.choke_note_off();
 
   // Randomize voice parameter value in selected range every time voice is triggered. Best works with extemely short looped segments, that sound like base waveforms
-  // voice.randomize(PITCH_INT, 60, 120);
-  // voice.trigger();
+
+  // int random_voice = 0;
+  // for (size_t i = 0; i < random(1, 3); i++)
+  // {
+  //   random_voice = random(3, 7);
+  //   volca.randomize_parameter(random_voice, PITCH_INT, 60, 120);
+  //   volca.randomize_parameter(random_voice, PAN, 0, 128);
+  //   volca.trigger(random_voice);
+
+  //   delay(random(100, 500));
+  // }
 
   // Compose a track, that consists of multiple short samples of the same length and choose random phrase every time the voice is triggered
-  // voice.pick_random_phrase();
-  // voice.trigger();
+  // volca.pick_random_phrase(2);
+  // volca.trigger(2);
 
   // Play midi notes chromatically. For now only one octave is available.
-  // voice.play_note(48);
+  // volca.play_note(1, 48);
   // delay(500);
-  // voice.play_note(49);
+  // volca.play_note(1, 49);
   // delay(500);
-  // voice.play_note(50);
+  // volca.play_note(1, 50);
   // delay(500);
-  // voice.play_note(51);
+  // volca.play_note(1, 51);
   // delay(500);
-  // voice.play_note(52);
+  // volca.play_note(1, 52);
   // delay(500);
-  // voice.play_note(53);
+  // volca.play_note(1, 53);
   // delay(500);
-  // voice.play_note(54);
+  // volca.play_note(1, 54);
   // delay(500);
-  // voice.play_note(55);
+  // volca.play_note(1, 55);
   // delay(500);
-  // voice.play_note(56);
+  // volca.play_note(1, 56);
   // delay(500);
-  // voice.play_note(57);
+  // volca.play_note(1, 57);
   // delay(500);
-  // voice.play_note(58);
+  // volca.play_note(1, 58);
   // delay(500);
 
-  delay(2000);
+  // delay(1000);
 }

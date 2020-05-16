@@ -1,6 +1,4 @@
-#include "MIDI.h"
 #include "Arduino.h"
-#include "HardwareSerial.h"
 
 #ifndef VOICE_HPP
 #define VOICE_HPP
@@ -21,28 +19,30 @@
 #define CHANNEL1_NOTE_OFF 128
 #define CHANNEL1_CONTROL_CHANGE 176
 
-typedef midi::MidiInterface<midi::SerialMIDI<HardwareSerial> > MidiInterface;
+// Play modes
+// #define TRIGGER_MODE 1
+// #define GATE_MODE 2
+// #define SLICE_MODE 3
+// #define STEP_SLICER_MODE 4
+// #define RANDOM_SLICER_MODE 5
+// #define MONO_CHROMATIC_MODE 6
+// #define MONO_CHROMATIC_MODE 7
+
+// Control modes
+// #define DEFAULT_MODE 1
+// #define VELOCITY_CONTROL_PARAMETER_MODE 2
+// #define RANDOM_PARAMETER_MODE 3
 
 class Voice {
   public:
     Voice(); // default constructor
-    Voice(MidiInterface* m, uint8_t i, uint8_t c);
-    void initialize();
-    void trigger();
-    void choke_note_on();
-    void choke_note_off();
-    void randomize_parameter(uint8_t param, uint8_t from, uint8_t to);
-    void velocity_controll(uint8_t param, uint8_t velocity);
-    void pick_random_phrase();
-    void play_note(uint8_t note);
-    void test();
+    Voice(uint8_t c);
 
-  private:
-    uint8_t index;
-    uint8_t channel;   
-    uint8_t initialize_status = 0;
-    MidiInterface* MIDI;
-    
+    uint8_t channel; 
+
+  private:    
+    // uint8_t play_mode = TRIGGER_MODE;
+    // uint8_t control_mode = DEFAULT_MODE;
 };
 
 #endif // VOICE_HPP
