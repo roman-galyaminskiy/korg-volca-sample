@@ -3,6 +3,7 @@
 #ifndef VOICE_HPP
 #define VOICE_HPP
 
+#define NONE -1
 #define LEVEL 7
 #define PAN 10
 #define SAMPLE_START_POINT 40
@@ -18,6 +19,9 @@
 #define CHANNEL1_NOTE_ON 144
 #define CHANNEL1_NOTE_OFF 128
 #define CHANNEL1_CONTROL_CHANGE 176
+
+#define CONTROL_CHANGE_MIN 0
+#define CONTROL_CHANGE_MAX 127
 
 // Play modes
 // #define TRIGGER_MODE 1
@@ -38,11 +42,18 @@ class Voice {
     Voice(); // default constructor
     Voice(uint8_t c);
 
-    uint8_t channel; 
+    uint8_t get_channel();
+    uint8_t get_parameter();
+    uint8_t* get_parameter_range();
 
   private:    
     // uint8_t play_mode = TRIGGER_MODE;
     // uint8_t control_mode = DEFAULT_MODE;
+
+    uint8_t channel;
+    uint8_t controlled_parameter = NONE;
+    uint8_t controlled_parameter_range_from = CONTROL_CHANGE_MIN;
+    uint8_t controlled_parameter_range_to = CONTROL_CHANGE_MAX;
 };
 
 #endif // VOICE_HPP

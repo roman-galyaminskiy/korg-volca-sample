@@ -6,31 +6,21 @@
 #include "HardwareSerial.h"
 
 #include "voice.hpp"
+#include "component.hpp"
 
-typedef midi::MidiInterface<midi::SerialMIDI<HardwareSerial> > MidiInterface;
+typedef MIDI_NAMESPACE::MidiInterface \
+  <MIDI_NAMESPACE::SerialMIDI<HardwareSerial>> MidiInterface;
 
-class Volca {
+class Volca : public Component {
   public:
     Volca(); // default constructor
-    Volca(MidiInterface* m);
+    Volca(Mediator *m, MidiInterface* i);
     void initialize();
     
-    void trigger(uint8_t voice_channel);
-    void choke_note_on(uint8_t voice_channel);
-    void choke_note_off(uint8_t voice_channel);
-    void randomize_parameter(uint8_t voice_channel 
-                            ,uint8_t param
-                            ,uint8_t from
-                            ,uint8_t to);
-    void velocity_controll(uint8_t voice_channel
-                            ,uint8_t param
-                            ,uint8_t velocity);
-    void pick_random_phrase(uint8_t voice_channel);
-    void play_note(uint8_t voice_channel, uint8_t note);
-    void test();
 
   private:
     uint8_t initialize_status = 0;
+    Mediator *mapper;
     MidiInterface* MIDI;
 
     Voice voices[10] = {
@@ -45,6 +35,15 @@ class Volca {
       ,Voice(9)
       ,Voice(10)
     };
+
+    void trigger(uint8_t voice_index);
+    void choke_note_on(uint8_t voice_index);
+    void choke_note_off(uint8_t voice_index);
+    void randomize_parameter(uint8_t voice_index);
+    void velocity_controll(uint8_t voice_index ,uint8_t velocity);
+    void pick_random_phrase(uint8_t voice_index);
+    void play_note(uint8_t voice_index, uint8_t note);
+    void test();
     
 };
 

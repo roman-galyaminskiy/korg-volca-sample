@@ -1,18 +1,14 @@
-#include <usbh_midi.h>
-#include <usbhub.h>
-#include <SPI.h>
+#include "mapper.hpp"
+#include "definitions.hpp"
 
-#include "volca.hpp"  
-
-MIDI_CREATE_INSTANCE(HardwareSerial, Serial3, midi2);
-
-Volca volca = Volca(&midi2);
+Mapper mapper;
 
 void setup() {  
-  volca.initialize();    
+  SERIAL_MONITOR.begin(9600);
 }
 
-void loop() {  
+void loop() {
+  // controller.listen();
   // Stop playing sample as you release button. Works best with long melodic/vocal samples
   // voice.choke_note_on();
   // delay(50);
