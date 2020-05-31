@@ -3,13 +3,13 @@
 Controller::Controller(Mediator *m, USB *u): USBH_MIDI(u), mapper(m) {}
 
 void Controller::start() {
-  SERIAL_MONITOR.println("Checking USB...");
+  // SERIAL_MONITOR.println("Checking USB...");
   if (pUsb->Init() == -1) {
     while (1); //halt
   }//if (Usb.Init() == -1...
   delay( 200 );
 
-  SERIAL_MONITOR.println("SUCCESS");
+  // SERIAL_MONITOR.println("SUCCESS");
 }
 
 void Controller::enableExtendedMode() {
@@ -47,6 +47,10 @@ void Controller::enableExtendedMode() {
   // SERIAL_MONITOR.println("Extended mode enabled");
 }
 
+void Controller::changed(uint8_t *event, uint8_t size) {
+  mapper->notify(this, event, size);
+}
+
 void Controller::listen() {
   pUsb->Task();
 
@@ -55,13 +59,33 @@ void Controller::listen() {
   uint8_t voice_number = -1;
   do {
     if ( (size = RecvData(outBuf)) > 0 ) {
-      SERIAL_MONITOR.print(outBuf[0], DEC);
-      SERIAL_MONITOR.print(" ");
-      SERIAL_MONITOR.print(outBuf[1], DEC);
-      SERIAL_MONITOR.print(" ");
-      SERIAL_MONITOR.print(outBuf[2], DEC);
-      SERIAL_MONITOR.println();
-    }
-    
+      // SERIAL_MONITOR.print(outBuf[0], DEC);
+      // SERIAL_MONITOR.print(" ");
+      // SERIAL_MONITOR.print(outBuf[1], DEC);
+      // SERIAL_MONITOR.print(" ");
+      // SERIAL_MONITOR.print(outBuf[2], DEC);
+      // SERIAL_MONITOR.println();
+
+      if (outBuf[0] == CHANNEL1_NOTE_ON) {
+        if (outBuf[1] >= PAD1 && outBuf[1] <= PAD16) {
+          change_pad_color(outBuf[1], RED);
+        }
+      }
+      else if (outBuf[0] == CHANNEL1_NOTE_OFF) {
+        if (outBuf[1] >= PAD1 && outBuf[1] <= PAD16) {
+          change_pad_color(outBuf[1], BLACK);
+        }
+      }
+      changed(outBuf, size);
+    }    
+
   } while (size > 0);
+}
+
+void Controller::change_pad_color(int8_t pad_note, uint8_t color_code) {
+  uint8_t msg[3] = {CHANNEL1_NOTE_ON, pad_note, color_code};
+
+  pUsb->Task();
+  SendData(msg, 1);
+  delay(1);
 }

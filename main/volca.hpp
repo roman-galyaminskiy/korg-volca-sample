@@ -6,7 +6,7 @@
 #include "HardwareSerial.h"
 
 #include "voice.hpp"
-#include "component.hpp"
+#include "mediator.hpp"
 
 typedef MIDI_NAMESPACE::MidiInterface \
   <MIDI_NAMESPACE::SerialMIDI<HardwareSerial>> MidiInterface;
@@ -16,7 +16,8 @@ class Volca : public Component {
     Volca(); // default constructor
     Volca(Mediator *m, MidiInterface* i);
     void initialize();
-    
+    void note_on(uint8_t voice_index);
+    void note_off(uint8_t voice_index);
 
   private:
     uint8_t initialize_status = 0;
@@ -36,6 +37,7 @@ class Volca : public Component {
       ,Voice(10)
     };
 
+    void changed(uint8_t *event, uint8_t size);
     void trigger(uint8_t voice_index);
     void choke_note_on(uint8_t voice_index);
     void choke_note_off(uint8_t voice_index);

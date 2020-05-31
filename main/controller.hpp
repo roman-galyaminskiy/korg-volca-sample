@@ -18,22 +18,6 @@
 #define PAD15 118
 #define PAD16 119
 
-#define TOP_PLAY 104
-#define BOTTOM_PLAY 120
-#define TRACK_LEFT 106
-#define TRACK_RIGHT 107
-#define SCENE_UP 104
-#define SCENE_DOWN 105
-
-#define KNOB1 21
-#define KNOB2 22
-#define KNOB3 23
-#define KNOB4 24
-#define KNOB5 25
-#define KNOB6 26
-#define KNOB7 27
-#define KNOB8 28
-
 #define BLACK 0
 #define RED 15
 #define ORANGE 19
@@ -50,7 +34,7 @@
 
 #include "volca.hpp"
 #include "definitions.hpp"
-#include "component.hpp"
+#include "mediator.hpp"
 
 class Controller: public USBH_MIDI, public Component {
 //  using USBH_MIDI::USBH_MIDI;
@@ -59,12 +43,20 @@ public:
   Controller(Mediator *m, USB *u);
   void start();
   void listen();
-  void enableExtendedMode();
+  void enableExtendedMode();  
+  void change_pad_color(int8_t pad_note, uint8_t color_code);
 
 private:
   Mediator *mapper;
   uint8_t extended_mode_enabled = 0;
   uint8_t key_reset_flag = 0;
+
+  const uint8_t pad_notes[16] = {
+    96, 97, 98, 99, 100, 101, 102, 103,
+    112, 113, 114, 115, 116, 117, 118, 119
+  };
+
+  void changed(uint8_t *event, uint8_t size);
 };
 
 #endif // CONTROLLER_HPP

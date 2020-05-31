@@ -8,13 +8,13 @@
 
 #include "volca.hpp"
 #include "controller.hpp" 
-#include "component.hpp"
+#include "mediator.hpp"
 
 // As I'm unable to use this macro 
 // 
 // MIDI_CREATE_INSTANCE(HardwareSerial, Serial3, midi2);
 // 
-// inside a class, I had to dissect file serialMIDI.h  and redeclare classes needed:
+// inside a class, so I had to dissect file serialMIDI.h  and redeclare classes needed:
 // 
 // #define MIDI_CREATE_INSTANCE(Type, SerialPort, Name)  \
 //   MIDI_NAMESPACE::SerialMIDI<Type> serial##Name(SerialPort);\
@@ -34,11 +34,16 @@ private:
   Volca* volca = new Volca(this, &midi2);
   Controller* controller = new Controller(this, &Usb);
 
+  uint8_t pad_to_voice_map[16] = {
+    0, 0, 4, 2, 2, 4, 0, 0,
+    0, 1, 3, 2, 2, 3, 1, 0
+  };
 
 public:
   Mapper();
-  void notify();
-  void notify(Component* component);
+  void notify(Component *component, uint8_t *event, uint8_t size);
+  void setup();
+  void loop();
 
   // MIDI_NAMESPACE::SerialMIDI<HardwareSerial> serialmidi2(Serial3);
 };
