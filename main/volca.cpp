@@ -3,7 +3,7 @@
 
 Volca::Volca(Mediator* m, MidiInterface* i)
 { 
-    this -> mapper = m;
+    this -> mediator = m;
     this -> MIDI = i;
 }
 
@@ -12,7 +12,7 @@ void Volca::note_on(uint8_t voice_index) {
 }
 
 void Volca::changed(uint8_t *event, uint8_t size) {
-  mapper->notify(this, event, size);
+  mediator->notify(this, event, size);
 }
 
 void Volca::initialize() {

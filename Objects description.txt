@@ -1,0 +1,32 @@
+1. Controller knows nothing about external systems. It incapsulates all USB MIDI features. It reads and writes MIDI events from and to physical controller. 
+
+It should notify mediator about events from hardware controller, according to contract.
+It receives messages from mediator (ex: to lit pads)
+
+Should it know about key combitations?
+
+2. Menu system stores current possition and used for traversal
+
+It should notify mediator, when possition changes
+It receives messages from mediator (ex: go to page or position)
+
+3. Graphical System (Interface)
+
+4. Display Grid is an impletentation on GS using 8x2 4 colour pads grid on hardware contoller.
+
+It has 2 modes:
+1. Play mode, when pads are used to control synth and are lit accordingly
+2. Menu mode, when pads are used to display current state of menu and traverse throught it
+
+It should notify mediator each time display grid should be redrawn
+
+5. Volca represends synth. It stores 10 voices and incapsules all MIDI features. It triggers voices depending on each voice modes.
+
+It receives messages from Mediator
+
+0. Mediator
+
+React on notification from componens and does something. Knows component's contracts
+
+Stores data about current system mode (play/menu) to pass events to Synth or to Display Grid.
+

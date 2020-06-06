@@ -1,14 +1,14 @@
-#include "mapper.hpp"
+#include "dispatcher.hpp"
 #include "definitions.hpp"
 
-Mapper mapper;
+Dispatcher dispatcher;
 
 void setup() {  
   SERIAL_MONITOR.begin(9600);
   // SERIAL_MONITOR.println("setup");
-  mapper.setup();
+  dispatcher.setup();
 }
 
 void loop() {
-  mapper.loop();
+  dispatcher.loop();
 }

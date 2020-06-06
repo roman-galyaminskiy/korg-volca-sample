@@ -18,11 +18,21 @@
 #define PAD15 118
 #define PAD16 119
 
-#define BLACK 0
-#define RED 15
-#define ORANGE 19
-#define YELLOW 21
-#define GREEN 24
+#define KNOB1 21
+#define KNOB2 22
+#define KNOB3 23
+#define KNOB4 24
+#define KNOB5 25
+#define KNOB6 26
+#define KNOB7 27
+#define KNOB8 28
+
+#define TOP_PLAY 104
+#define BOTTOM_PLAY 120
+#define TRACK_LEFT 106
+#define TRACK_RIGHT 107
+#define SCENE_UP 104
+#define SCENE_DOWN 105
 
 #define CHANNEL1_NOTE_ON 144
 #define CHANNEL1_NOTE_OFF 128
@@ -32,7 +42,6 @@
 #include <usbhub.h>
 #include <SPI.h>
 
-#include "volca.hpp"
 #include "definitions.hpp"
 #include "mediator.hpp"
 
@@ -44,10 +53,10 @@ public:
   void start();
   void listen();
   void enableExtendedMode();  
-  void change_pad_color(int8_t pad_note, uint8_t color_code);
+  void change_pad_color(int8_t pad_index, uint8_t color_code);
 
 private:
-  Mediator *mapper;
+  Mediator *mediator;
   uint8_t extended_mode_enabled = 0;
   uint8_t key_reset_flag = 0;
 

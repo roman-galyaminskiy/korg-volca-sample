@@ -21,7 +21,7 @@ class Volca : public Component {
 
   private:
     uint8_t initialize_status = 0;
-    Mediator *mapper;
+    Mediator *mediator;
     MidiInterface* MIDI;
 
     Voice voices[10] = {

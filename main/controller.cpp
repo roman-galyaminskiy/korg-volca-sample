@@ -1,6 +1,6 @@
 #include "controller.hpp"
 
-Controller::Controller(Mediator *m, USB *u): USBH_MIDI(u), mapper(m) {}
+Controller::Controller(Mediator *m, USB *u): USBH_MIDI(u), mediator(m) {}
 
 void Controller::start() {
   // SERIAL_MONITOR.println("Checking USB...");
@@ -48,7 +48,7 @@ void Controller::enableExtendedMode() {
 }
 
 void Controller::changed(uint8_t *event, uint8_t size) {
-  mapper->notify(this, event, size);
+  mediator->notify(this, event, size);
 }
 
 void Controller::listen() {
@@ -82,8 +82,8 @@ void Controller::listen() {
   } while (size > 0);
 }
 
-void Controller::change_pad_color(int8_t pad_note, uint8_t color_code) {
-  uint8_t msg[3] = {CHANNEL1_NOTE_ON, pad_note, color_code};
+void Controller::change_pad_color(int8_t pad_index, uint8_t color_code) {
+  uint8_t msg[3] = {CHANNEL1_NOTE_ON, pad_notes[pad_index], color_code};
 
   pUsb->Task();
   SendData(msg, 1);
