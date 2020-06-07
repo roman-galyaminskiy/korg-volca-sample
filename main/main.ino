@@ -4,7 +4,7 @@
 Dispatcher dispatcher;
 
 void setup() {  
-  SERIAL_MONITOR.begin(9600);
+  // SERIAL_MONITOR.begin(9600);
   // SERIAL_MONITOR.println("setup");
   dispatcher.setup();
 }

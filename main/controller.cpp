@@ -65,17 +65,6 @@ void Controller::listen() {
       // SERIAL_MONITOR.print(" ");
       // SERIAL_MONITOR.print(outBuf[2], DEC);
       // SERIAL_MONITOR.println();
-
-      if (outBuf[0] == CHANNEL1_NOTE_ON) {
-        if (outBuf[1] >= PAD1 && outBuf[1] <= PAD16) {
-          change_pad_color(outBuf[1], RED);
-        }
-      }
-      else if (outBuf[0] == CHANNEL1_NOTE_OFF) {
-        if (outBuf[1] >= PAD1 && outBuf[1] <= PAD16) {
-          change_pad_color(outBuf[1], BLACK);
-        }
-      }
       changed(outBuf, size);
     }    
 
@@ -89,3 +78,12 @@ void Controller::change_pad_color(int8_t pad_index, uint8_t color_code) {
   SendData(msg, 1);
   delay(1);
 }
+
+void Controller::change_button_color(int8_t button_note, uint8_t color_code) {
+  uint8_t msg[3] = {CHANNEL1_NOTE_ON, button_note, color_code};
+
+  pUsb->Task();
+  SendData(msg, 1);
+  delay(1);
+}
+

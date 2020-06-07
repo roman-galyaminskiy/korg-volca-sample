@@ -40,7 +40,7 @@ private:
   Volca* volca = new Volca(this, &midi2);
   Controller* controller = new Controller(this, &Usb);  
   Mapper* mapper = new Mapper(this);
-  DisplayGrid* dispay_grid = new DisplayGrid(this);
+  DisplayGrid* display_grid = new DisplayGrid(this);
 
   uint8_t mode = PLAY_MODE;
   uint8_t top_play_button_pressed = 0;

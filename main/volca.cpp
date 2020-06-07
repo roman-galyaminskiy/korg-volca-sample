@@ -7,8 +7,13 @@ Volca::Volca(Mediator* m, MidiInterface* i)
     this -> MIDI = i;
 }
 
-void Volca::note_on(uint8_t voice_index) {
-  trigger(voice_index);
+void Volca::note_on(int8_t voice_index) {
+  // SERIAL_MONITOR.print("Volca: note on ");
+  // SERIAL_MONITOR.println(voice_index);
+
+  if (voice_index > -1) {
+    trigger(voice_index);
+  }  
 }
 
 void Volca::changed(uint8_t *event, uint8_t size) {

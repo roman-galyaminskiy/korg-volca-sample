@@ -16,8 +16,8 @@ class Volca : public Component {
     Volca(); // default constructor
     Volca(Mediator *m, MidiInterface* i);
     void initialize();
-    void note_on(uint8_t voice_index);
-    void note_off(uint8_t voice_index);
+    void note_on(int8_t voice_index);
+    void note_off(int8_t voice_index);
 
   private:
     uint8_t initialize_status = 0;

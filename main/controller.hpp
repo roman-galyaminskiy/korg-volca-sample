@@ -54,6 +54,7 @@ public:
   void listen();
   void enableExtendedMode();  
   void change_pad_color(int8_t pad_index, uint8_t color_code);
+  void change_button_color(int8_t button_note, uint8_t color_code);
 
 private:
   Mediator *mediator;
