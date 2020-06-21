@@ -19,7 +19,9 @@ void Mapper::exit() {
   entered = 0;
 }
 
-void Mapper::pad_pressed(int8_t pad_index) {
+void Mapper::pad_pressed(uint8_t pad_index) {
+  int8_t voice_index = -1;
+  
   if (entered == 1) {
     // SERIAL_MONITOR.print("Mapper: pad_index ");
     // SERIAL_MONITOR.println(pad_index, DEC);
@@ -60,7 +62,8 @@ void Mapper::pad_pressed(int8_t pad_index) {
       changed(pad_to_voice_map, 16);
     }
   }
-  else {
-    changed(&pad_to_voice_map[pad_index], 1);
-  }
+}
+
+int8_t Mapper::get_voice_index(uint8_t pad_index) {
+  return pad_to_voice_map[pad_index];
 }

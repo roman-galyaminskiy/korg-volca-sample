@@ -13,7 +13,8 @@ public:
   void changed(uint8_t *event, uint8_t size);
   void enter();
   void exit();
-  void pad_pressed(int8_t pad_index);
+  void pad_pressed(uint8_t pad_index);
+  int8_t get_voice_index(uint8_t pad_index);
 private:
   Mediator *mediator;
 

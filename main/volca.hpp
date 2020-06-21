@@ -16,8 +16,11 @@ class Volca : public Component {
     Volca(); // default constructor
     Volca(Mediator *m, MidiInterface* i);
     void initialize();
-    void note_on(int8_t voice_index);
-    void note_off(int8_t voice_index);
+
+    void pad_on(uint8_t voice_index, uint8_t velocity);
+    void pad_off(uint8_t voice_index);
+    void note_on(uint8_t voice_index, uint8_t note, uint8_t velocity);
+    void note_off(uint8_t voice_index, uint8_t note);
 
   private:
     uint8_t initialize_status = 0;
@@ -37,7 +40,10 @@ class Volca : public Component {
       ,Voice(10)
     };
 
+    // Mediator
     void changed(uint8_t *event, uint8_t size);
+
+    void test();
     void trigger(uint8_t voice_index);
     void choke_note_on(uint8_t voice_index);
     void choke_note_off(uint8_t voice_index);
@@ -45,7 +51,15 @@ class Volca : public Component {
     void velocity_controll(uint8_t voice_index ,uint8_t velocity);
     void pick_random_phrase(uint8_t voice_index);
     void play_note(uint8_t voice_index, uint8_t note);
-    void test();
+    
+    // Polysynth
+    uint8_t polysynth_flag = 1;
+    int8_t keys_pressed[8] = {-1, -1, -1, -1, -1, -1, -1, -1};
+
+    int8_t press_key(int8_t note);
+    int8_t release_key(int8_t note);
+
+
     
 };
 

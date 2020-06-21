@@ -3,6 +3,8 @@
 Dispatcher::Dispatcher() {}
 
 void Dispatcher::notify(Component *component, uint8_t *event, uint8_t size) {
+  int8_t voice_index = -1;
+  
   if (component == volca) {
     // SERIAL_MONITOR.println("volca");
   }    
@@ -17,7 +19,11 @@ void Dispatcher::notify(Component *component, uint8_t *event, uint8_t size) {
     switch (event[0]) {
       case CHANNEL1_NOTE_ON:
         // SERIAL_MONITOR.print("Debug: pad index ");
-        if (event[1] >= PAD1 && event[1] <= PAD8) {
+        if (event[1] < PAD1) {
+          // SERIAL_MONITOR.print("Debug: key on");
+          volca->note_on(event[0], event[1], event[2]);
+        }
+        else if (event[1] >= PAD1 && event[1] <= PAD8) {
           // SERIAL_MONITOR.println(event[1] - PAD1, DEC);
           switch (mode) {
             case MAPPER_MODE:
@@ -26,8 +32,9 @@ void Dispatcher::notify(Component *component, uint8_t *event, uint8_t size) {
             case MENU_MODE:
               break;
             default: // PLAY_MODE
-              mapper->pad_pressed(event[1] - PAD1);
               controller->change_pad_color(event[1] - PAD1, RED);
+              voice_index = mapper->get_voice_index(event[1] - PAD1);
+              volca->pad_on(voice_index, event[2]);
               break;
           }          
         }
@@ -40,9 +47,9 @@ void Dispatcher::notify(Component *component, uint8_t *event, uint8_t size) {
             case MENU_MODE:
               break;
             default: // PLAY_MODE
-              mapper->pad_pressed(event[1] - PAD9 + 8);
               controller->change_pad_color(event[1] - PAD9 + 8, RED);
-              // volca->note_on(pad_to_voice_map[event[1] - PAD1]);
+              voice_index = mapper->get_voice_index(event[1] - PAD9 + 8);
+              volca->pad_on(voice_index, event[2]);
               break;
           }
         }
@@ -67,7 +74,11 @@ void Dispatcher::notify(Component *component, uint8_t *event, uint8_t size) {
         break;          
       case CHANNEL1_NOTE_OFF:
         // SERIAL_MONITOR.print("Debug: pad index ");
-        if (event[1] >= PAD1 && event[1] <= PAD8) {
+        if (event[1] < PAD1) {
+          // SERIAL_MONITOR.print("Debug: key off");
+          volca->note_off(event[0], event[1]);
+        }
+        else if (event[1] >= PAD1 && event[1] <= PAD8) {
           // SERIAL_MONITOR.println(event[1] - PAD1, DEC);
           switch (mode) {
             case MAPPER_MODE:
@@ -88,7 +99,6 @@ void Dispatcher::notify(Component *component, uint8_t *event, uint8_t size) {
               break;
             default: // PLAY_MODE              
               controller->change_pad_color(event[1] - PAD9 + 8, YELLOW);
-              // 
               break;
           }
         }
@@ -111,9 +121,6 @@ void Dispatcher::notify(Component *component, uint8_t *event, uint8_t size) {
     // SERIAL_MONITOR.print("Dispatching mapper event: size ");
     // SERIAL_MONITOR.println(size);
     switch (size) {
-      case 1:
-        volca->note_on(*event);
-        break;
       case 2:
         display_grid->draw_mapper_voice_selection(event[0], event[1]);
         break;
